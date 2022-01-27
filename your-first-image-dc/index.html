@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker Workshop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-family: "helvetica";
+            margin-top: 2%;
+        }
+
+        .wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wahed-logo-container {
+            width: 600px;
+        }
+
+        .wahed-logo-container img {
+            width: 100%;
+        }
+
+        .center {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #list-hobbies {
+            margin-top: 2%;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="center">
+        <div class="wahed-logo-container">
+            <img src="wahed-logo.png"/>
+        </div>
+        <h1>My Hobbies</h1>
+        <ul id="list-hobbies">
+            <li id="loader">loading ...</li>
+        </ul>
+    </div>
+</div>
+<script type="application/javascript">
+    let hobbies
+    const list = document.getElementById("list-hobbies")
+    const loader = document.getElementById("loader")
+    fetch('http://localhost:8081/hobbies')
+        .then(res => {
+            return res.json().then(data => {
+                hobbies = data
+                console.log("hobbies = ", hobbies)
+                loader.style.display = "none"
+                let li
+                hobbies.forEach(h => {
+                    li = document.createElement("li")
+                    li.textContent = h.name
+                    list.appendChild(li)
+                })
+                console.log("Wahed is fun by the way 😁")
+            })
+        }).catch(e => {
+        console.log("Error")
+        console.log(e)
+    })
+</script>
+</body>
+</html>
